@@ -22,6 +22,7 @@ maven-build:
 docker-build:
   stage: package
   script:
-  - docker build -t $IMAGE_TAG .
-  - docker login -u $CI_REGISTRY_USERNAME -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  - docker push $IMAGE_TAG
+  - docker build -t 185.53.130.232:9988/oktayalizada/nosy-email .
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN 185.53.130.232:9988
+  - docker push 185.53.130.232:9988/oktayalizada/nosy-email
+
