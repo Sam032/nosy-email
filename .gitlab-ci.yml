@@ -22,7 +22,7 @@ maven-build:
 docker-build:
   stage: package
   script:
-  - docker build -t 185.53.130.232:9988/oktayalizada/nosy-email .
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN 185.53.130.232:9988
-  - docker push 185.53.130.232:9988/oktayalizada/nosy-email
+  - docker build -t git.rectasolutions.com:9988/nosy/nosy-email .
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.rectasolutions.com:9988
+  - docker push git.rectasolutions.com:9988/nosy/nosy-emai
 
