@@ -19,7 +19,7 @@ maven-build:
   stage: build
   script: 
     - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
-    -"mvn package -B"
+    - mvn package -B
 
   artifacts:
     paths:
