@@ -6,6 +6,9 @@ variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
   IMAGE_TAG: oktayalizada/nosy-email:latest
+  SONAR_URL: "http://185.53.130.232:9000"
+  SONAR_LOGIN: "admin"
+  SONAR_PASSWORD: "2Yp6R*kB4eB"
 stages:
   - build
   - package
@@ -15,7 +18,8 @@ maven-build:
   image: maven:3-jdk-8
   stage: build
   script: 
-    - mvn package admin:2Yp6R*kB4eB -Dsonar.host.url=http://185.53.130.232:9000
+    - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
+    -"mvn package -B"
 
   artifacts:
     paths:
