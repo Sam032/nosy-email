@@ -17,7 +17,7 @@ stages:
 maven-build:
   image: maven:3-jdk-8
   stage: build
-  script: 
+  script:"mvn package -B"
     - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
 
   artifacts:
