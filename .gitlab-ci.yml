@@ -5,7 +5,8 @@ services:
 variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
-  IMAGE_TAG: oktayalizada/nosy-email:latest
+  IMAGE_TAG: oktayalizada/nosy-email:1.0
+
 stages:
   - build
   - package
@@ -14,7 +15,9 @@ stages:
 maven-build:
   image: maven:3-jdk-8
   stage: build
-  script: "mvn package -B"
+  script: 
+  - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
+  - mvn package
   artifacts:
     paths:
       - target/*.jar
@@ -25,3 +28,4 @@ docker-build:
   - docker build -t $IMAGE_TAG .
   - docker login -u $CI_REGISTRY_USERNAME -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   - docker push $IMAGE_TAG
+
