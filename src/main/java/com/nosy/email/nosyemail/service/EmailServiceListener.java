@@ -5,10 +5,8 @@ import com.nosy.email.nosyemail.model.ReadyEmail;
 import com.nosy.email.nosyemail.stream.EmailStreams;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
-
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 

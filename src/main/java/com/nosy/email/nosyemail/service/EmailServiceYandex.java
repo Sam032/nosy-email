@@ -1,7 +1,5 @@
 package com.nosy.email.nosyemail.service;
 
-import com.nosy.email.nosyemail.model.EmailProviderProperties;
-import com.nosy.email.nosyemail.model.EmailTemplate;
 import com.nosy.email.nosyemail.model.ReadyEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
