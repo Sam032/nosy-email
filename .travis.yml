@@ -10,3 +10,12 @@ addons:
 
 script:
   - ./mvnw clean install -B
+  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+
+services:
+  - docker
+
+after_success:
+
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
