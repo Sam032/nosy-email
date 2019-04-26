@@ -1,0 +1,12 @@
+language: java
+jdk: oraclejdk8
+
+
+addons:
+  sonarcloud:
+    organization: "notification-system"
+    token:
+      secure: $SONAR_TOKEN
+
+script:
+  - ./mvnw clean install -B
