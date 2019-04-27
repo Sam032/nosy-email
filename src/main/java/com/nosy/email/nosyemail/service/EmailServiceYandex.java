@@ -1,6 +1,8 @@
 package com.nosy.email.nosyemail.service;
 
 import com.nosy.email.nosyemail.model.ReadyEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -12,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceYandex  {
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceDefault.class);
 
     @Autowired
     @Qualifier("Yandex")
@@ -37,7 +40,7 @@ public class EmailServiceYandex  {
                 try {
                     mimeMessageHelper.addTo(emailTo);
                 } catch (MessagingException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
             });
             if(!readyEmail.getEmailTemplate().getEmailTemplateCc().isEmpty()){
@@ -47,7 +50,7 @@ public class EmailServiceYandex  {
                         mimeMessageHelper.addCc(emailCc);
 
                     } catch (MessagingException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 });
 

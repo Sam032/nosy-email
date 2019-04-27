@@ -1,6 +1,8 @@
 package com.nosy.email.nosyemail.service;
 
 import com.nosy.email.nosyemail.model.ReadyEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceDefault {
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceDefault.class);
 
     @Autowired
     @Qualifier("Default")
@@ -40,7 +43,7 @@ public class EmailServiceDefault {
                 try {
                     mimeMessageHelper.addTo(emailTo);
                 } catch (MessagingException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
             });
 
@@ -52,7 +55,7 @@ public class EmailServiceDefault {
                         mimeMessageHelper.addCc(emailCc);
 
                     } catch (MessagingException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 });
 

@@ -1,6 +1,8 @@
 package com.nosy.email.nosyemail.service;
 
 import com.nosy.email.nosyemail.model.ReadyEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -17,6 +19,7 @@ public class EmailServiceGmail{
     @Qualifier("Gmail")
     private JavaMailSenderImpl javaMailSender;
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceGmail.class);
 
     public void send(ReadyEmail readyEmail) {
         javaMailSender.setUsername(readyEmail.getEmailProviderProperties().getUsername());
@@ -35,7 +38,7 @@ public class EmailServiceGmail{
                 try {
                     mimeMessageHelper.addTo(emailTo);
                 } catch (MessagingException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
             });
             if(!readyEmail.getEmailTemplate().getEmailTemplateCc().isEmpty()){
@@ -45,7 +48,7 @@ public class EmailServiceGmail{
                         mimeMessageHelper.addCc(emailCc);
 
                     } catch (MessagingException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 });
 
