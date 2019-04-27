@@ -65,7 +65,7 @@ public class EmailServiceDefault {
             this.javaMailSender.send(message);
 
         } catch (MessagingException messageException) {
-            messageException.printStackTrace();
+            logger.error(messageException.getMessage());
             throw new RuntimeException(messageException);
         }
     }
