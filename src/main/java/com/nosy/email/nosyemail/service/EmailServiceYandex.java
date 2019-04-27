@@ -54,7 +54,7 @@ public class EmailServiceYandex  {
                     }
                 });
 
-            };
+            }
 
 
             this.javaMailSender.send(message);

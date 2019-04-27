@@ -52,7 +52,7 @@ public class EmailServiceGmail{
                     }
                 });
 
-            };
+            }
 
 
             this.javaMailSender.send(message);

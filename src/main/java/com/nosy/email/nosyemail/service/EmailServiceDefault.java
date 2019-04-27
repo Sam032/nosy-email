@@ -59,7 +59,7 @@ public class EmailServiceDefault {
                     }
                 });
 
-            };
+            }
 
 
             this.javaMailSender.send(message);
