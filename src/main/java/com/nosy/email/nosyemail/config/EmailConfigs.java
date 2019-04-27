@@ -19,6 +19,7 @@ public class EmailConfigs {
         javaMailProperties.put("mail.smtp.auth", "true");
         javaMailProperties.put("mail.debug", "true");
         javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        javaMailProperties.put("mail.smtp.ssl.checkserveridentity", true);
 
         yandex.setJavaMailProperties(javaMailProperties);
         return yandex;
@@ -39,6 +40,8 @@ public class EmailConfigs {
 
         javaMailProperties.put("mail.debug", "true");
         javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        javaMailProperties.put("mail.smtp.ssl.checkserveridentity", true);
+
 
         gmail.setJavaMailProperties(javaMailProperties);
         return gmail;
