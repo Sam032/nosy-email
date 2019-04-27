@@ -18,7 +18,6 @@ services:
 after_success:
 
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker build -t $IMAGE_NAME:$COMMIT .
-  - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
-  - docker push $IMAGE_NAME
+  - docker build -t $IMAGE_TAG .
+  - docker push $IMAGE_TAG
 
