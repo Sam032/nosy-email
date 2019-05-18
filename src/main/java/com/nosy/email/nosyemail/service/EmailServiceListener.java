@@ -2,11 +2,10 @@ package com.nosy.email.nosyemail.service;
 
 
 import com.nosy.email.nosyemail.model.ReadyEmail;
-import com.nosy.email.nosyemail.stream.EmailStreams;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,7 @@ public class EmailServiceListener {
 
     }
 
-    @StreamListener(EmailStreams.INPUT)
+    @KafkaListener(topics = "nosy-admin")
     public void handleGreetings(@Payload ReadyEmail readyEmail) throws MessagingException, JSONException {
         if(readyEmail.getEmailTemplate().getEmailFromProvider().equals("Yandex")){
             emailServiceYandex.send(readyEmail);
