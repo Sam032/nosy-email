@@ -1,6 +1,8 @@
 package com.nosy.email.nosyemail.service;
 
 import com.nosy.email.nosyemail.model.ReadyEmail;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,57 +11,57 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-
 @Component
-public class EmailServiceGmail{
-    @Autowired
-    @Qualifier("Gmail")
-    private JavaMailSenderImpl javaMailSender;
+public class EmailServiceGmail {
+  @Autowired
+  @Qualifier("Gmail")
+  private JavaMailSenderImpl javaMailSender;
 
-    private static final Logger logger = LoggerFactory.getLogger(EmailServiceGmail.class);
+  private static final Logger logger = LoggerFactory.getLogger(EmailServiceGmail.class);
 
-    public void send(ReadyEmail readyEmail) {
-        javaMailSender.setUsername(readyEmail.getEmailProviderProperties().getUsername());
-        javaMailSender.setPassword(readyEmail.getEmailProviderProperties().getPassword());
-        MimeMessage message=javaMailSender.createMimeMessage();
-        ;
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
-        try {
-            if (readyEmail.getEmailTemplate().getFromAddress() != null) {
-                mimeMessageHelper.setFrom(readyEmail.getEmailTemplate().getFromAddress());
-            }
-            mimeMessageHelper.setSubject(readyEmail.getEmailTemplate().getSubject());
-            mimeMessageHelper.setText(readyEmail.getEmailTemplate().getText(),true);
-            readyEmail.getEmailTemplate().getEmailTemplateTo().forEach(emailTo->
-            {
+  public void send(ReadyEmail readyEmail) {
+    javaMailSender.setUsername(readyEmail.getEmailProviderProperties().getUsername());
+    javaMailSender.setPassword(readyEmail.getEmailProviderProperties().getPassword());
+    MimeMessage message = javaMailSender.createMimeMessage();
+
+    MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
+    try {
+      if (readyEmail.getEmailTemplate().getFromAddress() != null) {
+        mimeMessageHelper.setFrom(readyEmail.getEmailTemplate().getFromAddress());
+      }
+      mimeMessageHelper.setSubject(readyEmail.getEmailTemplate().getSubject());
+      mimeMessageHelper.setText(readyEmail.getEmailTemplate().getText(), true);
+      readyEmail
+          .getEmailTemplate()
+          .getEmailTemplateTo()
+          .forEach(
+              emailTo -> {
                 try {
-                    mimeMessageHelper.addTo(emailTo);
+                  mimeMessageHelper.addTo(emailTo);
                 } catch (MessagingException e) {
-                    logger.error(e.getMessage());
+                  logger.error(e.getMessage());
                 }
-            });
-            if(!readyEmail.getEmailTemplate().getEmailTemplateCc().isEmpty()){
-                readyEmail.getEmailTemplate().getEmailTemplateCc().forEach(emailCc->
-                {
-                    try {
-                        mimeMessageHelper.addCc(emailCc);
+              });
+      if (!readyEmail.getEmailTemplate().getEmailTemplateCc().isEmpty()) {
+        readyEmail
+            .getEmailTemplate()
+            .getEmailTemplateCc()
+            .forEach(
+                emailCc -> {
+                  try {
+                    mimeMessageHelper.addCc(emailCc);
 
-                    } catch (MessagingException e) {
-                        logger.error(e.getMessage());
-                    }
+                  } catch (MessagingException e) {
+                    logger.error(e.getMessage());
+                  }
                 });
+      }
 
-            }
+      this.javaMailSender.send(message);
 
-
-            this.javaMailSender.send(message);
-
-        } catch (MessagingException messageException) {
-            logger.error(messageException.getMessage());
-            throw new RuntimeException(messageException);
-        }
+    } catch (MessagingException messageException) {
+      logger.error(messageException.getMessage());
+      throw new RuntimeException(messageException);
     }
+  }
 }
