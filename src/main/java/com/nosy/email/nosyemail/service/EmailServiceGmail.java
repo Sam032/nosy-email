@@ -1,8 +1,6 @@
 package com.nosy.email.nosyemail.service;
 
 import com.nosy.email.nosyemail.model.ReadyEmail;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +9,15 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 @Component
 public class EmailServiceGmail {
+  private static final Logger logger = LoggerFactory.getLogger(EmailServiceGmail.class);
   @Autowired
   @Qualifier("Gmail")
   private JavaMailSenderImpl javaMailSender;
-
-  private static final Logger logger = LoggerFactory.getLogger(EmailServiceGmail.class);
 
   public void send(ReadyEmail readyEmail) {
     javaMailSender.setUsername(readyEmail.getEmailProviderProperties().getUsername());
