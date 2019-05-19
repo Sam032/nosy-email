@@ -28,8 +28,7 @@ public class EmailServiceListener {
   }
 
   @KafkaListener(topics = "nosy-admin")
-  public void handleGreetings(@Payload ReadyEmail readyEmail)
-      throws MessagingException, JSONException {
+  public void handleGreetings(@Payload ReadyEmail readyEmail) {
     if (readyEmail.getEmailTemplate().getEmailFromProvider().equals("Yandex")) {
       emailServiceYandex.send(readyEmail);
     } else if (readyEmail.getEmailTemplate().getEmailFromProvider().equals("Gmail")) {
