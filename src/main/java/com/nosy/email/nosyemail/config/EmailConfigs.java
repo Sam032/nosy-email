@@ -12,35 +12,30 @@ public class EmailConfigs {
   @Bean("Yandex")
   public JavaMailSenderImpl javaMailYandexSender() {
     JavaMailSenderImpl yandex = new JavaMailSenderImpl();
-
-    Properties javaMailProperties = new Properties();
     yandex.setHost("smtp.yandex.ru");
     yandex.setPort(465);
+    yandex.setJavaMailProperties(getProperties());
+    return yandex;
+  }
+
+  private Properties getProperties(){
+    Properties javaMailProperties = new Properties();
     javaMailProperties.put("mail.smtp.auth", "true");
     javaMailProperties.put("mail.debug", "true");
     javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
     javaMailProperties.put("mail.smtp.ssl.checkserveridentity", true);
-
-    yandex.setJavaMailProperties(javaMailProperties);
-    return yandex;
+    return javaMailProperties;
   }
 
   @Bean("Gmail")
   public JavaMailSenderImpl javaMailGmailSender() {
     JavaMailSenderImpl gmail = new JavaMailSenderImpl();
-
-    Properties javaMailProperties = new Properties();
     gmail.setHost("smtp.gmail.com");
     gmail.setPort(465);
-    javaMailProperties.put("mail.smtp.auth", "true");
+    Properties javaMailProperties = getProperties();
     javaMailProperties.put("smtp.starttls.enable", "true");
     javaMailProperties.put("smtp.starttls.required", "true");
     javaMailProperties.put("smtp.ssl.enable", "true");
-
-    javaMailProperties.put("mail.debug", "true");
-    javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-    javaMailProperties.put("mail.smtp.ssl.checkserveridentity", true);
-
     gmail.setJavaMailProperties(javaMailProperties);
     return gmail;
   }
