@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.mail.internet.MimeMessage;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public class EmailServiceTest {
     public void setUp(){
         readyEmail=new ReadyEmail();
         EmailTemplate emailTemplate=new EmailTemplate();
+        emailTemplate.setEmailTemplateName("emailTemplateName");
         emailTemplate.setFromAddress("test@nosy.tech");
         emailTemplate.setEmailFromProvider("DEFAULT");
         emailTemplate.setEmailTemplateId("emailTemplateId");
@@ -45,7 +47,8 @@ public class EmailServiceTest {
         emailTemplate.setSubject("subject");
         emailTemplate.setText("text");
         readyEmail.setEmailTemplate(emailTemplate);
-
+        ReflectionTestUtils.setField(emailService, "emailDefaultUsername", "asdasd");
+        ReflectionTestUtils.setField(emailService, "emailDefaultPassword", "asdasd");
 
     }
 
@@ -64,4 +67,10 @@ public class EmailServiceTest {
 
 
   }
-}
+
+
+
+
+    }
+
+

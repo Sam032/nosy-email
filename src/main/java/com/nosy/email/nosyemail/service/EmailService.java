@@ -22,7 +22,9 @@ public class EmailService {
     private String emailDefaultPassword;
 
     public void send(ReadyEmail readyEmail, JavaMailSenderImpl javaMailSender){
-        if (readyEmail.getEmailTemplate().getEmailFromProvider().equals(DEFAULT_FROM_PROVIDER)) {
+        if (readyEmail.getEmailTemplate().getEmailFromProvider().equals(DEFAULT_FROM_PROVIDER) ||
+
+                readyEmail.getEmailTemplate().getFromAddress()==null) {
             javaMailSender.setUsername(emailDefaultUsername);
             javaMailSender.setPassword(emailDefaultPassword);
             readyEmail.getEmailTemplate().setFromAddress(emailDefaultUsername);
@@ -72,10 +74,9 @@ public class EmailService {
             }
 
             javaMailSender.send(message);
-
         } catch (MessagingException messageException) {
             logger.error(messageException.getMessage());
-            throw new RuntimeException(messageException);
         }
+
     }
 }
