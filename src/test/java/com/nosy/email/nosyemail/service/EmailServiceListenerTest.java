@@ -96,7 +96,7 @@ public class EmailServiceListenerTest {
     EmailTemplate emailTemplate=new EmailTemplate();
     emailTemplate.setEmailTemplateName("emailTemplateName");
     emailTemplate.setFromAddress("test@nosy.tech");
-    emailTemplate.setEmailFromProvider("Yandex");
+    emailTemplate.setEmailFromProvider("Gmail");
     emailTemplate.setEmailTemplateId("emailTemplateId");
     Set<String> emailTemplateToSet=new HashSet<>();
     String emailTemplateTo="nosy@email.to";
