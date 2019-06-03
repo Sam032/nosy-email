@@ -2,6 +2,7 @@ package com.nosy.email.nosyemail.service;
 
 import com.nosy.email.nosyemail.model.EmailProviderProperties;
 import com.nosy.email.nosyemail.model.EmailTemplate;
+import com.nosy.email.nosyemail.model.PlaceHolders;
 import com.nosy.email.nosyemail.model.ReadyEmail;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,9 @@ public class EmailServiceTest {
     @Before
     public void setUp(){
         readyEmail=new ReadyEmail();
+        PlaceHolders placeHolders=new PlaceHolders();
+        placeHolders.setName("name");
+        placeHolders.setValue("value");
         EmailTemplate emailTemplate=new EmailTemplate();
         emailTemplate.setEmailTemplateName("emailTemplateName");
         emailTemplate.setFromAddress("test@nosy.tech");
