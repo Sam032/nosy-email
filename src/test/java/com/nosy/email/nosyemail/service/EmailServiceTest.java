@@ -39,14 +39,25 @@ public class EmailServiceTest {
         emailTemplate.setEmailTemplateRetryTimes(2);
 
         Set<String> emailTemplateToSet=new HashSet<>();
-        String emailTemplateTo="nosy@email.to";
+        String emailTemplateTo="nosyTo@email.to";
+        String emailTemplateTo1="nosyTo1@email.to";
+
         emailTemplateToSet.add(emailTemplateTo);
+        emailTemplateToSet.add(emailTemplateTo1);
+
+
         Set<String> emailTemplateCcSet=new HashSet<>();
-        String emailTemplateCc="nosy@email.to";
-        emailTemplateToSet.add(emailTemplateCc);
+        String emailTemplateCc="nosyCc@email.to";
+        String emailTemplateCc1="nosyCc1@email.to";
+
+        emailTemplateCcSet.add(emailTemplateCc);
+        emailTemplateCcSet.add(emailTemplateCc1);
+
 
         emailTemplate.setEmailTemplateCc(emailTemplateCcSet);
         emailTemplate.setEmailTemplateTo(emailTemplateToSet);
+
+
         emailTemplate.setEmailTemplatePriority(1);
         emailTemplate.setEmailTemplateRetryPeriod(1);
         emailTemplate.setEmailTemplateRetryTimes(1);
@@ -74,10 +85,53 @@ public class EmailServiceTest {
 
 
   }
+    @Test
+    public void NonDefault(){
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
 
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        doNothing().when(javaMailSender).send(mimeMessage);
+        emailService.send(readyEmail,javaMailSender);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void WithCcNull(){
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> ccSet=new HashSet<>();
+        ccSet.add(null);
+        readyEmail.getEmailTemplate().setEmailTemplateCc(ccSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailService.send(readyEmail,javaMailSender);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void WithToNull(){
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add(null);
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailService.send(readyEmail,javaMailSender);
+    }
     }
 
 

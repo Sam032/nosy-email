@@ -1,6 +1,8 @@
 package com.nosy.email.nosyemail.service;
 
+import com.nosy.email.nosyemail.model.EmailProviderProperties;
 import com.nosy.email.nosyemail.model.EmailTemplate;
+import com.nosy.email.nosyemail.model.PlaceHolders;
 import com.nosy.email.nosyemail.model.ReadyEmail;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -29,19 +33,31 @@ public class EmailServiceListenerTest {
 
   private ReadyEmail readyEmail;
   private EmailTemplate emailTemplate;
-
+  private PlaceHolders placeHolders;
+  private List<PlaceHolders> placeHoldersList=new ArrayList<>();
   @Before
   public void setUp(){
     emailTemplate=new EmailTemplate();
+    placeHolders=new PlaceHolders();
+    placeHolders.setName("name");
+    placeHolders.setValue("value");
+    placeHoldersList.add(placeHolders);
     emailTemplate.setEmailTemplateName("emailTemplateName");
     emailTemplate.setEmailTemplateFromAddress("test@nosy.tech");
     emailTemplate.setEmailTemplateId("emailTemplateId");
     Set<String> emailTemplateToSet=new HashSet<>();
     String emailTemplateTo="nosy@email.to";
+    String emailTemplateTo1="test@email.to";
     emailTemplateToSet.add(emailTemplateTo);
+    emailTemplateToSet.add(emailTemplateTo1);
+
+
+
     Set<String> emailTemplateCcSet=new HashSet<>();
     String emailTemplateCc="nosy@email.to";
-    emailTemplateToSet.add(emailTemplateCc);
+    emailTemplateCcSet.add(emailTemplateCc);
+
+
 
     emailTemplate.setEmailTemplateCc(emailTemplateCcSet);
     emailTemplate.setEmailTemplateTo(emailTemplateToSet);
@@ -84,6 +100,16 @@ public class EmailServiceListenerTest {
   }
   @Test(expected = Test.None.class)
   public void checkEmailTemplate() {
+    EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+    emailProviderProperties.setUsername("username");
+    emailProviderProperties.setPassword("password");
+    readyEmail=new ReadyEmail();
+    readyEmail.setEmailTemplate(emailTemplate);
+    emailTemplate.setEmailTemplateFromProvider("Gmail");
+
+    emailProviderProperties.setPlaceholders(placeHoldersList);
+
+    readyEmail.setEmailProviderProperties(emailProviderProperties);
     assertEquals("emailTemplateId", emailTemplate.getEmailTemplateId());
     assertEquals("emailTemplateName", emailTemplate.getEmailTemplateName());
     assertEquals(1, emailTemplate.getEmailTemplateRetryTimes());
@@ -92,6 +118,8 @@ public class EmailServiceListenerTest {
 
 
   }
+
+
 
 
 }
