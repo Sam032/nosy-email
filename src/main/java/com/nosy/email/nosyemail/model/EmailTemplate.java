@@ -1,17 +1,9 @@
 package com.nosy.email.nosyemail.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
-@ToString
-@NoArgsConstructor
-@Builder
-@AllArgsConstructor
 @Component
 public class EmailTemplate {
   private String emailTemplateId;
