@@ -34,8 +34,8 @@ public class EmailServiceListenerTest {
     readyEmail=new ReadyEmail();
     EmailTemplate emailTemplate=new EmailTemplate();
     emailTemplate.setEmailTemplateName("emailTemplateName");
-    emailTemplate.setFromAddress("test@nosy.tech");
-    emailTemplate.setEmailFromProvider("DEFAULT");
+    emailTemplate.setEmailTemplateFromAddress("test@nosy.tech");
+    emailTemplate.setEmailTemplateFromProvider("DEFAULT");
     emailTemplate.setEmailTemplateId("emailTemplateId");
     Set<String> emailTemplateToSet=new HashSet<>();
     String emailTemplateTo="nosy@email.to";
@@ -46,11 +46,11 @@ public class EmailServiceListenerTest {
 
     emailTemplate.setEmailTemplateCc(emailTemplateCcSet);
     emailTemplate.setEmailTemplateTo(emailTemplateToSet);
-    emailTemplate.setPriority(1);
-    emailTemplate.setRetryPeriod(1);
-    emailTemplate.setRetryTimes(1);
-    emailTemplate.setSubject("subject");
-    emailTemplate.setText("text");
+    emailTemplate.setEmailTemplatePriority(1);
+    emailTemplate.setEmailTemplateRetryPeriod(1);
+    emailTemplate.setEmailTemplateRetryTimes(1);
+    emailTemplate.setEmailTemplateSubject("subject");
+    emailTemplate.setEmailTemplateText("text");
     readyEmail.setEmailTemplate(emailTemplate);
 
     doNothing().when(emailService).send(any(), any());
@@ -64,8 +64,8 @@ public class EmailServiceListenerTest {
     readyEmail=new ReadyEmail();
     EmailTemplate emailTemplate=new EmailTemplate();
     emailTemplate.setEmailTemplateName("emailTemplateName");
-    emailTemplate.setFromAddress("test@nosy.tech");
-    emailTemplate.setEmailFromProvider("Yandex");
+    emailTemplate.setEmailTemplateFromAddress("test@nosy.tech");
+    emailTemplate.setEmailTemplateFromProvider("Yandex");
     emailTemplate.setEmailTemplateId("emailTemplateId");
     Set<String> emailTemplateToSet=new HashSet<>();
     String emailTemplateTo="nosy@email.to";
@@ -76,11 +76,11 @@ public class EmailServiceListenerTest {
 
     emailTemplate.setEmailTemplateCc(emailTemplateCcSet);
     emailTemplate.setEmailTemplateTo(emailTemplateToSet);
-    emailTemplate.setPriority(1);
-    emailTemplate.setRetryPeriod(1);
-    emailTemplate.setRetryTimes(1);
-    emailTemplate.setSubject("subject");
-    emailTemplate.setText("text");
+    emailTemplate.setEmailTemplatePriority(1);
+    emailTemplate.setEmailTemplateRetryPeriod(1);
+    emailTemplate.setEmailTemplateRetryTimes(1);
+    emailTemplate.setEmailTemplateSubject("subject");
+    emailTemplate.setEmailTemplateText("text");
     readyEmail.setEmailTemplate(emailTemplate);
 
     doNothing().when(emailService).send(any(), any());
@@ -95,8 +95,8 @@ public class EmailServiceListenerTest {
     readyEmail=new ReadyEmail();
     EmailTemplate emailTemplate=new EmailTemplate();
     emailTemplate.setEmailTemplateName("emailTemplateName");
-    emailTemplate.setFromAddress("test@nosy.tech");
-    emailTemplate.setEmailFromProvider("Gmail");
+    emailTemplate.setEmailTemplateFromAddress("test@nosy.tech");
+    emailTemplate.setEmailTemplateFromProvider("Gmail");
     emailTemplate.setEmailTemplateId("emailTemplateId");
     Set<String> emailTemplateToSet=new HashSet<>();
     String emailTemplateTo="nosy@email.to";
@@ -107,11 +107,11 @@ public class EmailServiceListenerTest {
 
     emailTemplate.setEmailTemplateCc(emailTemplateCcSet);
     emailTemplate.setEmailTemplateTo(emailTemplateToSet);
-    emailTemplate.setPriority(1);
-    emailTemplate.setRetryPeriod(1);
-    emailTemplate.setRetryTimes(1);
-    emailTemplate.setSubject("subject");
-    emailTemplate.setText("text");
+    emailTemplate.setEmailTemplatePriority(1);
+    emailTemplate.setEmailTemplateRetryPeriod(1);
+    emailTemplate.setEmailTemplateRetryTimes(1);
+    emailTemplate.setEmailTemplateSubject("subject");
+    emailTemplate.setEmailTemplateText("text");
     readyEmail.setEmailTemplate(emailTemplate);
 
     doNothing().when(emailService).send(any(), any());

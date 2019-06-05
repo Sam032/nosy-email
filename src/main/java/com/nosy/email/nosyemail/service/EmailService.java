@@ -22,12 +22,12 @@ public class EmailService {
     private String emailDefaultPassword;
 
     public void send(ReadyEmail readyEmail, JavaMailSenderImpl javaMailSender){
-        if (readyEmail.getEmailTemplate().getEmailFromProvider().equals(DEFAULT_FROM_PROVIDER) ||
+        if (readyEmail.getEmailTemplate().getEmailTemplateFromProvider().equals(DEFAULT_FROM_PROVIDER) ||
 
-                readyEmail.getEmailTemplate().getFromAddress()==null) {
+                readyEmail.getEmailTemplate().getEmailTemplateFromAddress()==null) {
             javaMailSender.setUsername(emailDefaultUsername);
             javaMailSender.setPassword(emailDefaultPassword);
-            readyEmail.getEmailTemplate().setFromAddress(emailDefaultUsername);
+            readyEmail.getEmailTemplate().setEmailTemplateFromAddress(emailDefaultUsername);
         }
         else{
             javaMailSender.setUsername(readyEmail.getEmailProviderProperties().getUsername());
@@ -37,14 +37,14 @@ public class EmailService {
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
         try {
 
-            if (readyEmail.getEmailTemplate().getFromAddress() != null) {
-                mimeMessageHelper.setFrom(readyEmail.getEmailTemplate().getFromAddress());
+            if (readyEmail.getEmailTemplate().getEmailTemplateFromAddress() != null) {
+                mimeMessageHelper.setFrom(readyEmail.getEmailTemplate().getEmailTemplateFromAddress());
             }
-            mimeMessageHelper.setSubject(readyEmail.getEmailTemplate().getSubject());
+            mimeMessageHelper.setSubject(readyEmail.getEmailTemplate().getEmailTemplateSubject());
             mimeMessageHelper.setText(
-                    readyEmail.getEmailTemplate().getFromAddress()
+                    readyEmail.getEmailTemplate().getEmailTemplateFromAddress()
                             + ":   "
-                            + readyEmail.getEmailTemplate().getText(),
+                            + readyEmail.getEmailTemplate().getEmailTemplateText(),
                     true);
             readyEmail
                     .getEmailTemplate()

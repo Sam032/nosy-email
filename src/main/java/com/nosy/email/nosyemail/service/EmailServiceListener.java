@@ -40,9 +40,9 @@ public class EmailServiceListener {
 
   @KafkaListener(topics = "nosy-admin")
   public void handleGreetings(@Payload ReadyEmail readyEmail) {
-    if (readyEmail.getEmailTemplate().getEmailFromProvider().equals("Yandex")) {
+    if (readyEmail.getEmailTemplate().getEmailTemplateFromProvider().equals("Yandex")) {
       emailService.send(readyEmail, javaMailYandexSender);
-    } else if (readyEmail.getEmailTemplate().getEmailFromProvider().equals("Gmail")) {
+    } else if (readyEmail.getEmailTemplate().getEmailTemplateFromProvider().equals("Gmail")) {
       emailService.send(readyEmail, javaMailGmailSender);
     } else {
       emailService.send(readyEmail, javaMailDefaultSender);
