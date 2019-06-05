@@ -82,4 +82,16 @@ public class EmailServiceListenerTest {
     doNothing().when(emailService).send(any(), any());
     emailServiceListener.handleGreetings(readyEmail);
   }
+  @Test(expected = Test.None.class)
+  public void checkEmailTemplate() {
+    assertEquals("emailTemplateId", emailTemplate.getEmailTemplateId());
+    assertEquals("emailTemplateName", emailTemplate.getEmailTemplateName());
+    assertEquals(1, emailTemplate.getEmailTemplateRetryTimes());
+    assertEquals(1, emailTemplate.getEmailTemplateRetryPeriod());
+    assertEquals(1, emailTemplate.getEmailTemplatePriority());
+
+
+  }
+
+
 }
