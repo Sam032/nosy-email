@@ -16,23 +16,16 @@ import java.util.Set;
 public class EmailTemplate {
   private String emailTemplateId;
   private String emailTemplateName;
-  private String fromAddress;
-  private String emailFromProvider;
+  private String emailTemplateFromAddress;
+  private String emailTemplateFromProvider;
   private Set<String> emailTemplateTo;
   private Set<String> emailTemplateCc;
-  private String text;
-  private int retryTimes;
-  private int retryPeriod;
-  private int priority;
-  private String subject;
+  private String emailTemplateText;
+  private int emailTemplateRetryTimes;
+  private int emailTemplateRetryPeriod;
+  private int emailTemplatePriority;
+  private String emailTemplateSubject;
 
-  public String getEmailFromProvider() {
-    return emailFromProvider;
-  }
-
-  public void setEmailFromProvider(String emailFromProvider) {
-    this.emailFromProvider = emailFromProvider;
-  }
 
   public String getEmailTemplateId() {
     return emailTemplateId;
@@ -50,13 +43,6 @@ public class EmailTemplate {
     this.emailTemplateName = emailTemplateName;
   }
 
-  public String getFromAddress() {
-    return fromAddress;
-  }
-
-  public void setFromAddress(String fromAddress) {
-    this.fromAddress = fromAddress;
-  }
 
   public Set<String> getEmailTemplateTo() {
     return emailTemplateTo;
@@ -74,74 +60,76 @@ public class EmailTemplate {
     this.emailTemplateCc = emailTemplateCc;
   }
 
-  public String getText() {
-    return text;
+  public String getEmailTemplateFromAddress() {
+    return emailTemplateFromAddress;
   }
 
-  public void setText(String text) {
-    this.text = text;
+  public void setEmailTemplateFromAddress(String emailTemplateFromAddress) {
+    this.emailTemplateFromAddress = emailTemplateFromAddress;
   }
 
-  public int getRetryTimes() {
-    return retryTimes;
+  public String getEmailTemplateFromProvider() {
+    return emailTemplateFromProvider;
   }
 
-  public void setRetryTimes(int retryTimes) {
-    this.retryTimes = retryTimes;
+  public void setEmailTemplateFromProvider(String emailTemplateFromProvider) {
+    this.emailTemplateFromProvider = emailTemplateFromProvider;
   }
 
-  public int getRetryPeriod() {
-    return retryPeriod;
+  public String getEmailTemplateText() {
+    return emailTemplateText;
   }
 
-  public void setRetryPeriod(int retryPeriod) {
-    this.retryPeriod = retryPeriod;
+  public void setEmailTemplateText(String emailTemplateText) {
+    this.emailTemplateText = emailTemplateText;
   }
 
-  public int getPriority() {
-    return priority;
+  public int getEmailTemplateRetryTimes() {
+    return emailTemplateRetryTimes;
   }
 
-  public void setPriority(int priority) {
-    this.priority = priority;
+  public void setEmailTemplateRetryTimes(int emailTemplateRetryTimes) {
+    this.emailTemplateRetryTimes = emailTemplateRetryTimes;
   }
 
-  public String getSubject() {
-    return subject;
+  public int getEmailTemplateRetryPeriod() {
+    return emailTemplateRetryPeriod;
   }
 
-  public void setSubject(String subject) {
-    this.subject = subject;
+  public void setEmailTemplateRetryPeriod(int emailTemplateRetryPeriod) {
+    this.emailTemplateRetryPeriod = emailTemplateRetryPeriod;
+  }
+
+  public int getEmailTemplatePriority() {
+    return emailTemplatePriority;
+  }
+
+  public void setEmailTemplatePriority(int emailTemplatePriority) {
+    this.emailTemplatePriority = emailTemplatePriority;
+  }
+
+  public String getEmailTemplateSubject() {
+    return emailTemplateSubject;
+  }
+
+  public void setEmailTemplateSubject(String emailTemplateSubject) {
+    this.emailTemplateSubject = emailTemplateSubject;
   }
 
   @Override
   public String toString() {
-    return "EmailTemplate{"
-        + "emailTemplateId='"
-        + emailTemplateId
-        + '\''
-        + ", emailTemplateName='"
-        + emailTemplateName
-        + '\''
-        + ", fromAddress='"
-        + fromAddress
-        + '\''
-        + ", emailTemplateTo="
-        + emailTemplateTo
-        + ", emailTemplateCc="
-        + emailTemplateCc
-        + ", text='"
-        + text
-        + '\''
-        + ", retryTimes="
-        + retryTimes
-        + ", retryPeriod="
-        + retryPeriod
-        + ", priority="
-        + priority
-        + ", subject='"
-        + subject
-        + '\''
-        + '}';
+    return "EmailTemplate{" +
+            "emailTemplateId='" + emailTemplateId + '\'' +
+            ", emailTemplateName='" + emailTemplateName + '\'' +
+            ", emailTemplateFromAddress='" + emailTemplateFromAddress + '\'' +
+            ", emailTemplateFromProvider='" + emailTemplateFromProvider + '\'' +
+            ", emailTemplateTo=" + emailTemplateTo +
+            ", emailTemplateCc=" + emailTemplateCc +
+            ", emailTemplateText='" + emailTemplateText + '\'' +
+            ", emailTemplateRetryTimes=" + emailTemplateRetryTimes +
+            ", emailTemplateRetryPeriod=" + emailTemplateRetryPeriod +
+            ", emailTemplatePriority=" + emailTemplatePriority +
+            ", emailTemplateSubject='" + emailTemplateSubject + '\'' +
+            '}';
   }
 }

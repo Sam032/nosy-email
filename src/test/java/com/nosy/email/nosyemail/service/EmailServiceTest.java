@@ -33,9 +33,11 @@ public class EmailServiceTest {
         placeHolders.setValue("value");
         EmailTemplate emailTemplate=new EmailTemplate();
         emailTemplate.setEmailTemplateName("emailTemplateName");
-        emailTemplate.setFromAddress("test@nosy.tech");
-        emailTemplate.setEmailFromProvider("DEFAULT");
+        emailTemplate.setEmailTemplateFromAddress("test@nosy.tech");
+        emailTemplate.setEmailTemplateFromProvider("DEFAULT");
         emailTemplate.setEmailTemplateId("emailTemplateId");
+        emailTemplate.setEmailTemplateRetryTimes(2);
+
         Set<String> emailTemplateToSet=new HashSet<>();
         String emailTemplateTo="nosy@email.to";
         emailTemplateToSet.add(emailTemplateTo);
@@ -45,11 +47,12 @@ public class EmailServiceTest {
 
         emailTemplate.setEmailTemplateCc(emailTemplateCcSet);
         emailTemplate.setEmailTemplateTo(emailTemplateToSet);
-        emailTemplate.setPriority(1);
-        emailTemplate.setRetryPeriod(1);
-        emailTemplate.setRetryTimes(1);
-        emailTemplate.setSubject("subject");
-        emailTemplate.setText("text");
+        emailTemplate.setEmailTemplatePriority(1);
+        emailTemplate.setEmailTemplateRetryPeriod(1);
+        emailTemplate.setEmailTemplateRetryTimes(1);
+        emailTemplate.setEmailTemplateSubject("subject");
+        emailTemplate.setEmailTemplateText("text");
+        emailTemplate.setEmailTemplatePriority(1);
         readyEmail.setEmailTemplate(emailTemplate);
         ReflectionTestUtils.setField(emailService, "emailDefaultUsername", "asdasd");
         ReflectionTestUtils.setField(emailService, "emailDefaultPassword", "asdasd");
