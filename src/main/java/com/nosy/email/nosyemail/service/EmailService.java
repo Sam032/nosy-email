@@ -23,8 +23,9 @@ public class EmailService {
 
     public void send(ReadyEmail readyEmail, JavaMailSenderImpl javaMailSender){
         if (readyEmail.getEmailTemplate().getEmailTemplateFromProvider().equals(DEFAULT_FROM_PROVIDER) ||
-
-                readyEmail.getEmailTemplate().getEmailTemplateFromAddress()==null) {
+                readyEmail.getEmailTemplate().getEmailTemplateFromAddress()==null ||
+                readyEmail.getEmailProviderProperties()==null ||
+                readyEmail.getEmailProviderProperties().getUsername()==null || readyEmail.getEmailProviderProperties().getPassword()==null) {
             javaMailSender.setUsername(emailDefaultUsername);
             javaMailSender.setPassword(emailDefaultPassword);
             readyEmail.getEmailTemplate().setEmailTemplateFromAddress(emailDefaultUsername);
@@ -57,7 +58,6 @@ public class EmailService {
                                     logger.error(e.getMessage());
                                 }
                             });
-
             if (!readyEmail.getEmailTemplate().getEmailTemplateCc().isEmpty()) {
                 readyEmail
                         .getEmailTemplate()
@@ -66,7 +66,6 @@ public class EmailService {
                                 emailCc -> {
                                     try {
                                         mimeMessageHelper.addCc(emailCc);
-
                                     } catch (MessagingException e) {
                                         logger.error(e.getMessage());
                                     }
