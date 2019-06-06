@@ -116,6 +116,7 @@ public class EmailServiceListenerTest {
     assertEquals(1, emailTemplate.getEmailTemplateRetryPeriod());
     assertEquals(1, emailTemplate.getEmailTemplatePriority());
     assertEquals("name", emailProviderProperties.getPlaceholders().get(0).getName());
+    assertEquals("value", emailProviderProperties.getPlaceholders().get(0).getValue());
 
   }
 
