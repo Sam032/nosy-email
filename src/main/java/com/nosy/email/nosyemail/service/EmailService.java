@@ -64,7 +64,6 @@ public class EmailService {
                                     logger.error(e.getMessage());
                                 }
                             });
-            if (!readyEmail.getEmailTemplate().getEmailTemplateCc().isEmpty()) {
                 readyEmail
                         .getEmailTemplate()
                         .getEmailTemplateCc()
@@ -78,7 +77,7 @@ public class EmailService {
                                     }
 
                                 });
-            }
+
 
             javaMailSender.send(message);
         } catch (MessagingException messageException) {
