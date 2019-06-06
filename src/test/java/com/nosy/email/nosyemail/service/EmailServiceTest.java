@@ -1,5 +1,6 @@
 package com.nosy.email.nosyemail.service;
 
+import com.nosy.email.nosyemail.config.EmailConfigs;
 import com.nosy.email.nosyemail.model.EmailProviderProperties;
 import com.nosy.email.nosyemail.model.EmailTemplate;
 import com.nosy.email.nosyemail.model.PlaceHolders;
@@ -8,10 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +29,8 @@ public class EmailServiceTest {
     @InjectMocks
     private EmailService emailService;
     private ReadyEmail readyEmail;
-
+    @Mock
+    EmailConfigs emailConfigs;
     @Before
     public void setUp(){
         readyEmail=new ReadyEmail();
@@ -74,7 +79,7 @@ public class EmailServiceTest {
 
 
   @Test(expected = Test.None.class)
-  public void send() {
+  public void send() throws MessagingException {
       EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
       emailProviderProperties.setPassword("dadad");
       emailProviderProperties.setUsername("dadasdas");
@@ -82,12 +87,17 @@ public class EmailServiceTest {
       MimeMessage mimeMessage=mock(MimeMessage.class);
       when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
       doNothing().when(javaMailSender).send(mimeMessage);
+      MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+      when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+      doNothing().when(mimeMessageHelper).setFrom(anyString());
       emailService.send(readyEmail,javaMailSender);
 
 
   }
     @Test(expected = Test.None.class)
-    public void NonDefault(){
+    public void NonDefault() throws MessagingException {
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
         EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
@@ -99,10 +109,15 @@ public class EmailServiceTest {
         MimeMessage mimeMessage=mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         doNothing().when(javaMailSender).send(mimeMessage);
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        doNothing().when(mimeMessageHelper).setFrom(anyString());
         emailService.send(readyEmail,javaMailSender);
     }
     @Test(expected = IllegalArgumentException.class)
-    public void WithCcNull(){
+    public void WithCcNull() throws MessagingException {
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
         EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
@@ -115,10 +130,15 @@ public class EmailServiceTest {
         JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
         MimeMessage mimeMessage=mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        doThrow(IllegalArgumentException.class).when(mimeMessageHelper).setFrom(anyString());
         emailService.send(readyEmail,javaMailSender);
     }
     @Test(expected = IllegalArgumentException.class)
-    public void WithToNull(){
+    public void WithToNull() throws MessagingException {
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
         EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
@@ -131,7 +151,100 @@ public class EmailServiceTest {
         JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
         MimeMessage mimeMessage=mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        doThrow(IllegalArgumentException.class).when(mimeMessageHelper).setFrom(anyString());
         emailService.send(readyEmail,javaMailSender);
+
+
+    }
+    @Test(expected = Test.None.class)
+    public void messagingException() {
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add("dadasda");
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+        try {
+            doThrow(MessagingException.class).when(mimeMessageHelper).setFrom(anyString());
+            emailService.send(readyEmail,javaMailSender);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException();
+        }
+
+
+    }
+
+    @Test(expected = Test.None.class)
+    public void messagingExceptionFromAddToMethod() {
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add("dadasda");
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        try {
+            doNothing().when(mimeMessageHelper).setFrom(anyString());
+
+            doThrow(MessagingException.class).when(mimeMessageHelper).addTo(anyString());
+
+            emailService.send(readyEmail,javaMailSender);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException();
+        }
+
+
+    }
+
+    @Test(expected = Test.None.class)
+    public void messagingExceptionFromAddCcMethod() {
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add("dadasda");
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        try {
+            doNothing().when(mimeMessageHelper).setFrom(anyString());
+
+            doThrow(MessagingException.class).when(mimeMessageHelper).addCc(anyString());
+
+            emailService.send(readyEmail,javaMailSender);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException();
+        }
 
 
     }

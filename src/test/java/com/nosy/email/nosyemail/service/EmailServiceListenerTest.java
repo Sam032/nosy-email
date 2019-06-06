@@ -33,12 +33,11 @@ public class EmailServiceListenerTest {
 
   private ReadyEmail readyEmail;
   private EmailTemplate emailTemplate;
-  private PlaceHolders placeHolders;
   private List<PlaceHolders> placeHoldersList=new ArrayList<>();
   @Before
   public void setUp(){
     emailTemplate=new EmailTemplate();
-    placeHolders=new PlaceHolders();
+    PlaceHolders placeHolders = new PlaceHolders();
     placeHolders.setName("name");
     placeHolders.setValue("value");
     placeHoldersList.add(placeHolders);
