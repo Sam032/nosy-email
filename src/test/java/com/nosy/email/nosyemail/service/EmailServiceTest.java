@@ -160,7 +160,7 @@ public class EmailServiceTest {
 
 
     }
-    @Test
+    @Test(expected = Test.None.class)
     public void WithCcEmpty() throws MessagingException {
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
@@ -293,8 +293,8 @@ public class EmailServiceTest {
     }
 
 
-    @Test
-    public void testWithEmptuEmailProviderProperties(){
+    @Test(expected = Test.None.class)
+    public void testWithEmptyEmailProviderProperties(){
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
         MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
 
@@ -319,7 +319,63 @@ public class EmailServiceTest {
         }
 
     }
+    @Test(expected = Test.None.class)
+    public void testWithNullUsernameEmailProviderProperties(){
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername(null);
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add("dadasda");
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
 
+        try {
+            doNothing().when(mimeMessageHelper).setFrom(anyString());
+
+            doThrow(MessagingException.class).when(mimeMessageHelper).addCc(anyString());
+
+            emailService.send(readyEmail,javaMailSender);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException();
+        }
+
+    }
+
+    @Test(expected = Test.None.class)
+    public void testWithNullPasswordEmailProviderProperties(){
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword(null);
+        emailProviderProperties.setUsername("dasdasd");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add("dadasda");
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        try {
+            doNothing().when(mimeMessageHelper).setFrom(anyString());
+
+            doThrow(MessagingException.class).when(mimeMessageHelper).addCc(anyString());
+
+            emailService.send(readyEmail,javaMailSender);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException();
+        }
+
+    }
     @Test
     public void testToString(){
         String emailTemplateString="EmailTemplate{emailTemplateId='emailTemplateId', emailTemplateName='emailTemplateName', emailTemplateFromAddress='test@nosy.tech', emailTemplateFromProvider='DEFAULT', emailTemplateTo=[nosyTo1@email.to, nosyTo@email.to], emailTemplateCc=[nosyCc1@email.to, nosyCc@email.to], emailTemplateText='text', emailTemplateRetryTimes=1, emailTemplateRetryPeriod=1, emailTemplatePriority=1, emailTemplateSubject='subject'}";
