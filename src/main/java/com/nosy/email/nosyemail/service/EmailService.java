@@ -33,7 +33,8 @@ public class EmailService {
         if (readyEmail.getEmailTemplate().getEmailTemplateFromProvider().equals(DEFAULT_FROM_PROVIDER) ||
                 readyEmail.getEmailTemplate().getEmailTemplateFromAddress()==null ||
                 readyEmail.getEmailProviderProperties()==null ||
-                readyEmail.getEmailProviderProperties().getUsername()==null || readyEmail.getEmailProviderProperties().getPassword()==null) {
+                readyEmail.getEmailProviderProperties().getUsername()==null ||
+                readyEmail.getEmailProviderProperties().getPassword()==null) {
             javaMailSender.setUsername(emailDefaultUsername);
             javaMailSender.setPassword(emailDefaultPassword);
             readyEmail.getEmailTemplate().setEmailTemplateFromAddress(emailDefaultUsername);
