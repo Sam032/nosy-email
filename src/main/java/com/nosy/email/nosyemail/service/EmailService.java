@@ -46,9 +46,7 @@ public class EmailService {
         MimeMessageHelper mimeMessageHelper = emailConfigs.mimeMessageHelper(message);
         try {
 
-            if (readyEmail.getEmailTemplate().getEmailTemplateFromAddress() != null) {
-                mimeMessageHelper.setFrom(readyEmail.getEmailTemplate().getEmailTemplateFromAddress());
-            }
+            mimeMessageHelper.setFrom(readyEmail.getEmailTemplate().getEmailTemplateFromAddress());
             mimeMessageHelper.setSubject(readyEmail.getEmailTemplate().getEmailTemplateSubject());
             mimeMessageHelper.setText(
                     readyEmail.getEmailTemplate().getEmailTemplateFromAddress()
@@ -76,7 +74,7 @@ public class EmailService {
                                     try {
                                         mimeMessageHelper.addCc(emailCc);
                                     } catch (MessagingException e) {
-                                        e.printStackTrace();
+                                        logger.error(e.getMessage());
                                     }
 
                                 });

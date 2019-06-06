@@ -160,6 +160,30 @@ public class EmailServiceTest {
 
 
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void FromAddressNull() throws MessagingException {
+        readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
+        readyEmail.getEmailTemplate().setEmailTemplateFromAddress(null);
+        EmailProviderProperties emailProviderProperties=new EmailProviderProperties();
+        emailProviderProperties.setPassword("dadad");
+        emailProviderProperties.setUsername("dadasdas");
+        readyEmail.setEmailProviderProperties(emailProviderProperties);
+        Set<String> toSet=new HashSet<>();
+        toSet.add(null);
+        readyEmail.getEmailTemplate().setEmailTemplateTo(toSet);
+        JavaMailSenderImpl javaMailSender=mock(JavaMailSenderImpl.class);
+        MimeMessage mimeMessage=mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        MimeMessageHelper mimeMessageHelper=mock(MimeMessageHelper.class);
+
+        when(emailConfigs.mimeMessageHelper(mimeMessage)).thenReturn(mimeMessageHelper);
+
+        doThrow(IllegalArgumentException.class).when(mimeMessageHelper).setFrom(anyString());
+        emailService.send(readyEmail,javaMailSender);
+
+
+    }
     @Test(expected = Test.None.class)
     public void messagingException() {
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
