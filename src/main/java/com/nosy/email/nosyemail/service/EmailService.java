@@ -1,8 +1,10 @@
 package com.nosy.email.nosyemail.service;
 
+import com.nosy.email.nosyemail.config.EmailConfigs;
 import com.nosy.email.nosyemail.model.ReadyEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class EmailService {
     private static final String DEFAULT_FROM_PROVIDER="DEFAULT";
+
     private Logger logger = LoggerFactory.getLogger(EmailService.class);
 
   @Value("${nosy.email.default.username}")
@@ -21,6 +24,11 @@ public class EmailService {
     @Value("${nosy.email.default.password}")
     private String emailDefaultPassword;
 
+    private EmailConfigs emailConfigs;
+    @Autowired
+    public EmailService(EmailConfigs emailConfigs){
+        this.emailConfigs=emailConfigs;
+    }
     public void send(ReadyEmail readyEmail, JavaMailSenderImpl javaMailSender){
         if (readyEmail.getEmailTemplate().getEmailTemplateFromProvider().equals(DEFAULT_FROM_PROVIDER) ||
                 readyEmail.getEmailTemplate().getEmailTemplateFromAddress()==null ||
@@ -35,7 +43,7 @@ public class EmailService {
             javaMailSender.setPassword(readyEmail.getEmailProviderProperties().getPassword());
         }
         MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
+        MimeMessageHelper mimeMessageHelper = emailConfigs.mimeMessageHelper(message);
         try {
 
             if (readyEmail.getEmailTemplate().getEmailTemplateFromAddress() != null) {
@@ -64,11 +72,13 @@ public class EmailService {
                         .getEmailTemplateCc()
                         .forEach(
                                 emailCc -> {
+
                                     try {
                                         mimeMessageHelper.addCc(emailCc);
                                     } catch (MessagingException e) {
-                                        logger.error(e.getMessage());
+                                        e.printStackTrace();
                                     }
+
                                 });
             }
 

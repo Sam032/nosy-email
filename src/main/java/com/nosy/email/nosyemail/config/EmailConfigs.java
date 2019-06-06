@@ -2,8 +2,10 @@ package com.nosy.email.nosyemail.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 @Component
@@ -45,4 +47,9 @@ public class EmailConfigs {
   public JavaMailSenderImpl javaMailDefaultSender() {
     return javaMailYandexSender();
   }
+
+  public MimeMessageHelper mimeMessageHelper(MimeMessage message){
+    return new MimeMessageHelper(message);
+  }
+
 }
