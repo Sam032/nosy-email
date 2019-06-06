@@ -86,7 +86,7 @@ public class EmailServiceTest {
 
 
   }
-    @Test
+    @Test(expected = Test.None.class)
     public void NonDefault(){
         readyEmail.getEmailTemplate().setEmailTemplateFromProvider("Yandex");
 
@@ -132,14 +132,21 @@ public class EmailServiceTest {
         MimeMessage mimeMessage=mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         emailService.send(readyEmail,javaMailSender);
+
+
     }
 
     @Test
     public void testToString(){
         String emailTemplateString="EmailTemplate{emailTemplateId='emailTemplateId', emailTemplateName='emailTemplateName', emailTemplateFromAddress='test@nosy.tech', emailTemplateFromProvider='DEFAULT', emailTemplateTo=[nosyTo1@email.to, nosyTo@email.to], emailTemplateCc=[nosyCc1@email.to, nosyCc@email.to], emailTemplateText='text', emailTemplateRetryTimes=1, emailTemplateRetryPeriod=1, emailTemplatePriority=1, emailTemplateSubject='subject'}";
         assertEquals(emailTemplateString,readyEmail.getEmailTemplate().toString());
+        String readyEmailString="ReadyEmail{emailProviderProperties=null, emailTemplate=EmailTemplate{emailTemplateId='emailTemplateId', emailTemplateName='emailTemplateName', emailTemplateFromAddress='test@nosy.tech', emailTemplateFromProvider='DEFAULT', emailTemplateTo=[nosyTo1@email.to, nosyTo@email.to], emailTemplateCc=[nosyCc1@email.to, nosyCc@email.to], emailTemplateText='text', emailTemplateRetryTimes=1, emailTemplateRetryPeriod=1, emailTemplatePriority=1, emailTemplateSubject='subject'}}";
+
+        assertEquals(readyEmailString, readyEmail.toString());
 
     }
+
+
 
     }
 
