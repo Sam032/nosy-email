@@ -6,7 +6,7 @@ addons:
   sonarcloud:
     organization: "notification-system"
     token:
-      secure: $SONAR_TOKEN
+       secure: "QCjinIQJhZZY3Y5KWGoyk7RT24iUrEkn4gNzqek/UJ1zpYvphJC+gH9AKnf4ng2UHERVLS0lyAxCID1DsUZG3740XndEWQJegyEg9ZObInNd3vy92K/gQSYqw6j1V+Dr8UoALjksr2FkYQFs8hd+gJMiL7ksfe6O+CQ3fiddQrwujaCy0QWvCXO9iJR1CCkAR+SfcmqnCQy0Lzixr4FLtYGzhfnHUGO5fEfKb6U2+IzYOA5JRSt7qwWa9o98JM5l+INbZehOULAf5BDXudgEes+6NS/G4rVQTxyNSPcJSy7ggQ1XNkjOfzoN+kZcifuMeulUTOj1qthrIxOw1SzsC+2gqKwvaKar2+PAGzGXOMPC13NCrD+8KSLmqkhvVzrh+kRDWoKiGwDYQqp3D6sbUqDJ7oI2QphFlUiLxrDCoJ5V+efMQ7RGfKyxgkLwkYv1tzXTDs/hm4Gf4I7pLvqkdy+Xn7TFq/SYxIUR4EsLTUFNJ8QAMJx7LkdCJ9Zzkuxy3xieU0nRFjkui3Gbqs3ntYx8mOX5sJVMCDdmNmKv3jrM4fMhfhDOtdzhngfmfbdGhK8HxKqFaLykq5r9H5iO92CaDv1ycEJzVGva+EuMHd2DVvu7dDxt06CYmRum77CsAAj65Jt8xrsIkO/8yzyapGC8xkvO7Z0es0SveafaUIg="
 
 script:
   - ./mvnw clean install -B
