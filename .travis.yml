@@ -6,18 +6,24 @@ addons:
   sonarcloud:
     organization: "notification-system"
     token:
-       secure: "QCjinIQJhZZY3Y5KWGoyk7RT24iUrEkn4gNzqek/UJ1zpYvphJC+gH9AKnf4ng2UHERVLS0lyAxCID1DsUZG3740XndEWQJegyEg9ZObInNd3vy92K/gQSYqw6j1V+Dr8UoALjksr2FkYQFs8hd+gJMiL7ksfe6O+CQ3fiddQrwujaCy0QWvCXO9iJR1CCkAR+SfcmqnCQy0Lzixr4FLtYGzhfnHUGO5fEfKb6U2+IzYOA5JRSt7qwWa9o98JM5l+INbZehOULAf5BDXudgEes+6NS/G4rVQTxyNSPcJSy7ggQ1XNkjOfzoN+kZcifuMeulUTOj1qthrIxOw1SzsC+2gqKwvaKar2+PAGzGXOMPC13NCrD+8KSLmqkhvVzrh+kRDWoKiGwDYQqp3D6sbUqDJ7oI2QphFlUiLxrDCoJ5V+efMQ7RGfKyxgkLwkYv1tzXTDs/hm4Gf4I7pLvqkdy+Xn7TFq/SYxIUR4EsLTUFNJ8QAMJx7LkdCJ9Zzkuxy3xieU0nRFjkui3Gbqs3ntYx8mOX5sJVMCDdmNmKv3jrM4fMhfhDOtdzhngfmfbdGhK8HxKqFaLykq5r9H5iO92CaDv1ycEJzVGva+EuMHd2DVvu7dDxt06CYmRum77CsAAj65Jt8xrsIkO/8yzyapGC8xkvO7Z0es0SveafaUIg="
+       secure: "Kl3V7G/WxV9nT6Z9XIe2CPhClNafGrNIACZ6wDGWgnjE1RRHDGIWEIrBACarDjjA5OuKRGvZZc40n+JaUTYSNh7KaBgp/WuxYqCGfBvUIYOPX3GshP76obvCwNbUKxFgJF/rTCSOeR/EPwiH+uOIRE7im6OOYN04MXLm8sJtbdwujCIKVTSgnszQo/9ceFmvccEilxfGrHh3zHmJlrJtjvPlJKfOFj/TAgEhmA5lxKqpdLmGih7TejnnqKtPdNZY2fk6Uu81f52rIRkSOv0Ed03n47f9EqNRZIU3XFgcq/uGxirOGE9Xn+nirCGFlZtG08G078s/WWLCepm4yloJ4cd2CoPexIbj5tOm4dBCFw8tVSa86EPGhJaN4dAtpGE539S6YmzjdIijeIrYjpL0jZXGaZO3oh8Wi8iql/vSihRaK2z1ZGLafqwkMlHw9DblVxMsZcGfDWCMsXMcFIV9gdZX76axdYEB4zXcuYf3OBIUZI7SDhXwBnF+mfDcBudbb/uaEHhYH8sUoO5JtHRfKWeodkl0LqhbcIVJBnq8sLVOg46OngmBG5G/gMEb4fjq0zoHirF5PvDb0XYsjK3PNLToOvKMEDXheCeG4fiBdHwU8fy0OXdg/ULPRlU5mLsbD+uR6n/XUEosNhwi3BkCYmpPnKpnROw/E4ezhGTRpTo="
 
 script:
   - ./mvnw clean install -B
-  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - ./mvnw clean verify sonar:sonar -Pcoverage 
 
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    
 services:
   - docker
 
 after_success:
-
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker build -t $IMAGE_TAG .
-  - docker push $IMAGE_TAG
+- if tag IS present; then
+   docker login -u $DOCKER_USER -p $DOCKER_PASS
+   docker build -t $IMAGE_TAG .
+   docker push $IMAGE_TAG
+  fi
 
