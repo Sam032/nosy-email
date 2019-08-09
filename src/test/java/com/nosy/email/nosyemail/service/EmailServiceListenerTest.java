@@ -71,31 +71,29 @@ public class EmailServiceListenerTest {
 
 
   @Test(expected = Test.None.class)
-  public void handleGreetings() {
+  public void handleReadyEmail() {
     readyEmail=new ReadyEmail();
     emailTemplate.setEmailTemplateFromProvider("DEFAULT");
     readyEmail.setEmailTemplate(emailTemplate);
     doNothing().when(emailService).send(any(), any());
-    emailServiceListener.handleGreetings(readyEmail);
-
-
+    emailServiceListener.handleReadyEmail(readyEmail);
   }
 
   @Test(expected = Test.None.class)
-  public void handleGreetingsYandex() {
+  public void handleReadyEmailYandex() {
     readyEmail=new ReadyEmail();
     emailTemplate.setEmailTemplateFromProvider("Yandex");
     readyEmail.setEmailTemplate(emailTemplate);
-    emailServiceListener.handleGreetings(readyEmail);
+    emailServiceListener.handleReadyEmail(readyEmail);
   }
 
   @Test(expected = Test.None.class)
-  public void handleGreetingsGmail() {
+  public void handleReadyEmailGmail() {
     readyEmail=new ReadyEmail();
     emailTemplate.setEmailTemplateFromProvider("Gmail");
     readyEmail.setEmailTemplate(emailTemplate);
     doNothing().when(emailService).send(any(), any());
-    emailServiceListener.handleGreetings(readyEmail);
+    emailServiceListener.handleReadyEmail(readyEmail);
   }
   @Test(expected = Test.None.class)
   public void checkEmailTemplate() {
